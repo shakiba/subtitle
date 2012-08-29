@@ -15,8 +15,8 @@ subtitle
       MicroDVD(r)      MicroDVD (.sub) format writer, r is frame rate.
     
     FILTERS:
-      Head(n)          Only first n subtitle.
-      Tail(n)          Only last n subtitle.
+      Head(n)          Include only first n subtitle. Use -n to exlude.
+      Tail(n)          Include only last n subtitle. Use -n to exlude.
       
       Offset(t)        Move each subtitle t milliseconds.
       Pad(t)           Add t milliseconds before and after each subtitle.

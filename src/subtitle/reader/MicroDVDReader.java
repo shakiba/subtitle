@@ -26,7 +26,7 @@ public class MicroDVDReader extends SubtitleReader {
             String text = Util.clean(matcher.group(4));
 
             Entry entry = new Entry();
-            entry.time(start, end);
+            entry.startEnd(start, end);
             entry.setLines(text.split("\\|"));
 
             addEntry(entry);

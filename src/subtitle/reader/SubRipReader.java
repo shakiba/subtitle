@@ -29,7 +29,7 @@ public class SubRipReader extends SubtitleReader {
                 && (matcher = intervalPattern.matcher(line)).matches()) {
             long start = Entry.hmsl(matcher, 1, 2, 3, 4);
             long end = Entry.hmsl(matcher, 5, 6, 7, 8);
-            current.time(start, end);
+            current.startEnd(start, end);
             state = State.timed;
 
         } else if (state == State.timed) {

@@ -170,8 +170,8 @@ public class Main {
     private static List<Help> readers = new ArrayList<Help>();
     private static List<Help> writers = new ArrayList<Help>();
     static {
-        filters.add(new Help(HeadFilter.class, "(n)", "Only first n subtitle."));
-        filters.add(new Help(TailFilter.class, "(n)", "Only last n subtitle."));
+        filters.add(new Help(HeadFilter.class, "(n)", "Include only first n subtitle. Use -n to exlude."));
+        filters.add(new Help(TailFilter.class, "(n)", "Include only last n subtitle. Use -n to exlude."));
         filters.add(new Help(""));
         filters.add(new Help(OffsetFilter.class, "(t)",
                 "Move each subtitle t milliseconds."));

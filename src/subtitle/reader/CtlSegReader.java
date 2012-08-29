@@ -20,7 +20,7 @@ public class CtlSegReader extends SubtitleReader {
             long end = Long.valueOf(matcher.group(3)) * 10;
 
             Entry entry = new Entry();
-            entry.time(start, end);
+            entry.startEnd(start, end);
 
             addEntry(entry);
 

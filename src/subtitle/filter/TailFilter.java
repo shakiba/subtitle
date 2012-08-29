@@ -1,6 +1,7 @@
 package subtitle.filter;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import subtitle.Entry;
 
@@ -13,16 +14,25 @@ public class TailFilter extends SubtitleFilter {
     }
 
     public TailFilter(int n) {
-        this.n = Math.max(n, 1);
+        this.n = n;
     }
 
     @Override
     protected void filter() {
-        LinkedList<Entry> entries = subtitle.entries();
-        if (entries.size() > 0) {
-            int m = Math.min(n, entries.size());
-            subtitle.entries(new LinkedList<Entry>(entries.subList(
-                    entries.size() - m, entries.size())));
+        List<Entry> entries = subtitle.entries();
+        if (entries.size() > 0 && n != 0) {
+            if (n > 0) {
+                entries = tail(n, entries);
+            } else {
+                // n is negative
+                entries = HeadFilter.head(entries.size() + n, entries);
+            }
+            subtitle.entries(new LinkedList<Entry>(entries));
         }
+    }
+
+    public static List<Entry> tail(int n, List<Entry> entries) {
+        n = Math.min(n, entries.size());
+        return entries.subList(entries.size() - n, entries.size());
     }
 }

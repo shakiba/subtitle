@@ -20,19 +20,24 @@ public class Entry implements Comparable<Entry> {
     // }
 
     public void join(Entry that) {
-        this.time(this.start, that.end());
+        this.startEnd(this.start, that.end());
         this.lines.addAll(that.lines);
     }
 
-    public Entry time(long start, long end) {
-        this.start = start;
-        this.interval = end - start;
+    public Entry startEnd(long start, long end) {
+        start(start);
+        interval(end - start);
         return this;
     }
 
-    public Entry interval(long start, long interval) {
-        this.start = start;
-        this.interval = interval;
+    public Entry startInterval(long start, long interval) {
+        start(start);
+        interval(interval);
+        return this;
+    }
+
+    public Entry start(long start) {
+        this.start = Math.max(start, 0);
         return this;
     }
 
@@ -47,6 +52,11 @@ public class Entry implements Comparable<Entry> {
 
     public long end() {
         return start + interval;
+    }
+
+    public Entry interval(long interval) {
+        this.interval = Math.max(interval, 0);
+        return this;
     }
 
     public long interval() {
@@ -115,7 +125,8 @@ public class Entry implements Comparable<Entry> {
 
     @Override
     public String toString() {
-        return String.format("%8d %6d %8d %s", start() , interval() , end() , joinLines("|"));
+        return String.format("%8d %6d %8d %s", start(), interval(), end(),
+                joinLines("|"));
     }
 
     public static String hmsl(long millis, String millisSign) {
