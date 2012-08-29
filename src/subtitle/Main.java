@@ -7,47 +7,27 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import subtitle.filter.ExcludeFilter;
+import subtitle.filter.HeadFilter;
+import subtitle.filter.JoinContinueFilter;
+import subtitle.filter.MaxFilter;
+import subtitle.filter.MinFilter;
+import subtitle.filter.NoDialogFilter;
+import subtitle.filter.NoEmptyFilter;
+import subtitle.filter.NoExplainFilter;
+import subtitle.filter.OffsetFilter;
+import subtitle.filter.PadFilter;
+import subtitle.filter.SortFilter;
+import subtitle.filter.SubtitleFilter;
+import subtitle.filter.TailFilter;
+import subtitle.reader.MicroDVDReader;
+import subtitle.reader.SubRipReader;
+import subtitle.reader.SubtitleReader;
+import subtitle.writer.MicroDVDWriter;
+import subtitle.writer.SubRipWriter;
+import subtitle.writer.SubtitleWriter;
+
 public class Main {
-    private static List<Help> filters = new ArrayList<Help>();
-    private static List<Help> readers = new ArrayList<Help>();
-    private static List<Help> writers = new ArrayList<Help>();
-    static {
-        filters.add(new Help(HeadFilter.class, "(n)", "Only first n subtitle."));
-        filters.add(new Help(TailFilter.class, "(n)", "Only last n subtitle."));
-        filters.add(new Help(""));
-        filters.add(new Help(OffsetFilter.class, "(t)",
-                "Move each subtitle t milli seconds."));
-        filters.add(new Help(PadFilter.class, "(t)",
-                "Adds t milli seconds to begining and end of each subtitle."));
-        filters.add(new Help(PadFilter.class, "(ts, te)",
-                "Adds ts milli seconds to start and and te to end of each subtitle."));
-        filters.add(new Help(""));
-        filters.add(new Help(MaxFilter.class, "(t)",
-                "Exlude subtitles which are more than t milli seconds."));
-        filters.add(new Help(MinFilter.class, "(t)",
-                "Exlude subtitles which are less than t milli seconds."));
-        filters.add(new Help(ExcludeFilter.class, "(s, e)",
-                "Exlude subtitles which appears between ts and te milli seconds."));
-        filters.add(new Help(""));
-        filters.add(new Help(SortFilter.class, "Sort by start time."));
-        filters.add(new Help(""));
-        filters.add(new Help(NoEmptyFilter.class, "Exclude empty subtitle."));
-        filters.add(new Help(NoExplainFilter.class,
-                "Exclude [EXPLANATORY] subtitles."));
-        filters.add(new Help(
-                NoDialogFilter.class,
-                "Exclude subtitles which contains a dialog like `ME: Hi|YOU: Bye!` or `- Hi|- Bye`."));
-        filters.add(new Help(JoinContinueFilter.class,
-                "Join each two subtitles if one ends with and next starts with `...`."));
-
-        readers.add(new Help(SubRipReader.class, "SubRip (.srt) format reader."));
-        readers.add(new Help(MicroDVDReader.class, "(r)",
-                "MicroDVD (.sub) format reader, r is frame rate."));
-
-        writers.add(new Help(SubRipWrite.class, "SubRip (.srt) format writer."));
-        writers.add(new Help(MicroDVDWriter.class, "(r)",
-                "MicroDVD (.sub) format writer, r is frame rate."));
-    }
 
     static class Help {
         private final Class<?> clazz;
@@ -117,12 +97,13 @@ public class Main {
         String input = args[3];
         String output = args[4];
 
-        SubtitleReader reader = obj(readerClass, "Reader");
+        SubtitleReader reader = obj(readerClass, SubtitleReader.class, "Reader");
 
         SubtitleFilter filter = null;
         for (String filterClass : filterClasses.split("\\;")) {
             if (Util.is(filterClass)) {
-                SubtitleFilter next = obj(filterClass, "Filter");
+                SubtitleFilter next = obj(filterClass, SubtitleFilter.class,
+                        "Filter");
                 if (filter != null) {
                     filter.next(next);
                 } else {
@@ -131,13 +112,14 @@ public class Main {
             }
         }
 
-        SubtitleWrite writer = obj(writerClass, "Writer");
+        SubtitleWriter writer = obj(writerClass, SubtitleWriter.class, "Writer");
 
         go(reader, filter, writer, input, output);
     }
 
     public static void go(SubtitleReader reader, SubtitleFilter filter,
-            SubtitleWrite writer, String input, String output) throws Exception {
+            SubtitleWriter writer, String input, String output)
+            throws Exception {
 
         Subtitle subtitle = reader.read(input).subtitle();
 
@@ -166,19 +148,63 @@ public class Main {
     private static ScriptEngineManager factory = new ScriptEngineManager();
     private static ScriptEngine engine = factory.getEngineByName("JavaScript");
 
+    private static <E> E obj(String name, Class<?> base, String sufix)
+            throws ScriptException {
+        return obj(name, base.getPackage(), sufix);
+    }
+
     @SuppressWarnings("unchecked")
-    private static <E> E obj(String name, String sufix) throws ScriptException {
+    private static <E> E obj(String name, Package pkg, String sufix)
+            throws ScriptException {
         name = name.trim();
         if (!name.endsWith(")")) {
             name += "()";
         }
-        name = name.replaceFirst("\\(", sufix + "(");
+        name = pkg.getName() + "." + name.replaceFirst("\\(", sufix + "(");
         feedback("Creating: " + name);
-        // name = "importPackage(Packages." + Main.class.getPackage().getName()
-        // + "); new " + name;
-        name = "new Packages." + Main.class.getPackage().getName() + "." + name;
-        // feedback(name);
-        return (E) engine.eval(name);
+
+        return (E) engine.eval("new Packages." + name);
+    }
+
+    private static List<Help> filters = new ArrayList<Help>();
+    private static List<Help> readers = new ArrayList<Help>();
+    private static List<Help> writers = new ArrayList<Help>();
+    static {
+        filters.add(new Help(HeadFilter.class, "(n)", "Only first n subtitle."));
+        filters.add(new Help(TailFilter.class, "(n)", "Only last n subtitle."));
+        filters.add(new Help(""));
+        filters.add(new Help(OffsetFilter.class, "(t)",
+                "Move each subtitle t milli seconds."));
+        filters.add(new Help(PadFilter.class, "(t)",
+                "Adds t milli seconds to begining and end of each subtitle."));
+        filters.add(new Help(PadFilter.class, "(ts, te)",
+                "Adds ts milli seconds to start and and te to end of each subtitle."));
+        filters.add(new Help(""));
+        filters.add(new Help(MaxFilter.class, "(t)",
+                "Exlude subtitles which are more than t milli seconds."));
+        filters.add(new Help(MinFilter.class, "(t)",
+                "Exlude subtitles which are less than t milli seconds."));
+        filters.add(new Help(ExcludeFilter.class, "(s, e)",
+                "Exlude subtitles which appears between ts and te milli seconds."));
+        filters.add(new Help(""));
+        filters.add(new Help(SortFilter.class, "Sort by start time."));
+        filters.add(new Help(""));
+        filters.add(new Help(NoEmptyFilter.class, "Exclude empty subtitle."));
+        filters.add(new Help(NoExplainFilter.class,
+                "Exclude [EXPLANATORY] subtitles."));
+        filters.add(new Help(
+                NoDialogFilter.class,
+                "Exclude subtitles which contains a dialog like `ME: Hi|YOU: Bye!` or `- Hi|- Bye`."));
+        filters.add(new Help(JoinContinueFilter.class,
+                "Join each two subtitles if one ends with and next starts with `...`."));
+
+        readers.add(new Help(SubRipReader.class, "SubRip (.srt) format reader."));
+        readers.add(new Help(MicroDVDReader.class, "(r)",
+                "MicroDVD (.sub) format reader, r is frame rate."));
+
+        writers.add(new Help(SubRipWriter.class, "SubRip (.srt) format writer."));
+        writers.add(new Help(MicroDVDWriter.class, "(r)",
+                "MicroDVD (.sub) format writer, r is frame rate."));
     }
 
     static void feedback() {

@@ -1,7 +1,10 @@
-package subtitle;
+package subtitle.reader;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import subtitle.Entry;
+import subtitle.Util;
 
 public class SubRipReader extends SubtitleReader {
 

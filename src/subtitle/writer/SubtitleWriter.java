@@ -1,4 +1,4 @@
-package subtitle;
+package subtitle.writer;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -8,11 +8,13 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
 
-public abstract class SubtitleWrite {
+import subtitle.Subtitle;
+
+public abstract class SubtitleWriter {
 
     protected Subtitle subtitle;
 
-    public SubtitleWrite subtitle(Subtitle subtitle) {
+    public SubtitleWriter subtitle(Subtitle subtitle) {
         this.subtitle = subtitle;
         return this;
     }

@@ -1,11 +1,13 @@
-package subtitle;
+package subtitle.writer;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class SubRipWrite extends SubtitleWrite {
+import subtitle.Entry;
 
-    public SubRipWrite() {
+public class SubRipWriter extends SubtitleWriter {
+
+    public SubRipWriter() {
     }
 
     @Override

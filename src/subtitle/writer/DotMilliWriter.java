@@ -1,10 +1,12 @@
-package subtitle;
+package subtitle.writer;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-public class DotMilliWriter extends SubtitleWrite {
+import subtitle.Entry;
+
+public class DotMilliWriter extends SubtitleWriter {
 
     public static final String format = "%.3f %.3f %.3f";
 

@@ -1,9 +1,11 @@
-package subtitle;
+package subtitle.writer;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class MicroDVDWriter extends SubtitleWrite {
+import subtitle.Entry;
+
+public class MicroDVDWriter extends SubtitleWriter {
 
     private final int frameRate;
 

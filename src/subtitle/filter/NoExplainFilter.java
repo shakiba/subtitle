@@ -1,4 +1,4 @@
-package subtitle;
+package subtitle.filter;
 
 import java.util.List;
 import java.util.regex.Pattern;

@@ -1,4 +1,6 @@
-package subtitle;
+package subtitle.filter;
+
+import subtitle.Entry;
 
 public class NoEmptyFilter extends SubtitleFilter {
 

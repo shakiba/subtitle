@@ -1,4 +1,7 @@
-package subtitle;
+package subtitle.filter;
+
+import subtitle.Entry;
+import subtitle.Util;
 
 public class NoDialogFilter extends SubtitleFilter {
 

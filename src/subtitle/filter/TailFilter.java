@@ -1,6 +1,8 @@
-package subtitle;
+package subtitle.filter;
 
 import java.util.LinkedList;
+
+import subtitle.Entry;
 
 public class TailFilter extends SubtitleFilter {
 
