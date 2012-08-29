@@ -174,18 +174,18 @@ public class Main {
         filters.add(new Help(TailFilter.class, "(n)", "Only last n subtitle."));
         filters.add(new Help(""));
         filters.add(new Help(OffsetFilter.class, "(t)",
-                "Move each subtitle t milli seconds."));
+                "Move each subtitle t milliseconds."));
         filters.add(new Help(PadFilter.class, "(t)",
-                "Adds t milli seconds to begining and end of each subtitle."));
-        filters.add(new Help(PadFilter.class, "(ts, te)",
-                "Adds ts milli seconds to start and and te to end of each subtitle."));
+                "Add t milliseconds before and after each subtitle."));
+        filters.add(new Help(PadFilter.class, "(tb, ta)",
+                "Add tb milliseconds before and ta after each subtitle."));
         filters.add(new Help(""));
         filters.add(new Help(MaxFilter.class, "(t)",
-                "Exlude subtitles which are more than t milli seconds."));
+                "Exlude subtitles which are more than t milliseconds."));
         filters.add(new Help(MinFilter.class, "(t)",
-                "Exlude subtitles which are less than t milli seconds."));
+                "Exlude subtitles which are less than t milliseconds."));
         filters.add(new Help(ExcludeFilter.class, "(s, e)",
-                "Exlude subtitles which appears between ts and te milli seconds."));
+                "Exlude subtitles which appears between ts and te milliseconds."));
         filters.add(new Help(""));
         filters.add(new Help(SortFilter.class, "Sort by start time."));
         filters.add(new Help(""));

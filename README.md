@@ -18,13 +18,13 @@ subtitle
       Head(n)          Only first n subtitle.
       Tail(n)          Only last n subtitle.
       
-      Offset(t)        Move each subtitle t milli seconds.
-      Pad(t)           Adds t milli seconds to begining and end of each subtitle.
-      Pad(ts, te)      Adds ts milli seconds to start and and te to end of each subtitle.
+      Offset(t)        Move each subtitle t milliseconds.
+      Pad(t)           Add t milliseconds before and after each subtitle.
+      Pad(tb, ta)      Add tb milliseconds before and ta after each subtitle.
       
-      Max(t)           Exlude subtitles which are more than t milli seconds.
-      Min(t)           Exlude subtitles which are less than t milli seconds.
-      Exclude(s, e)    Exlude subtitles which appears between ts and te milli seconds.
+      Max(t)           Exlude subtitles which are more than t milliseconds.
+      Min(t)           Exlude subtitles which are less than t milliseconds.
+      Exclude(s, e)    Exlude subtitles which appears between ts and te milliseconds.
       
       Sort             Sort by start time.
       
@@ -32,4 +32,3 @@ subtitle
       NoExplain        Exclude [EXPLANATORY] subtitles.
       NoDialog         Exclude subtitles which contains a dialog like `ME: Hi|YOU: Bye!` or `- Hi|- Bye`.
       JoinContinue     Join each two subtitles if one ends with and next starts with `...`.
-
