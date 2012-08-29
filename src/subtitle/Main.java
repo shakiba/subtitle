@@ -84,31 +84,30 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         if (args.length != 5) {
-            System.err.println();
-            System.err.println("ARGS:");
-            System.err.println("  <Reader>" + "  <Filter>;<Filter>;..."
-                    + "  <Writer>" + "  <input/file>|\"stdin\""
-                    + "  <output/file>|\"stdout\"");
+            feedback();
+            feedback("ARGS:");
+            feedback("  <Reader>" + "  <Filter>;<Filter>;..." + "  <Writer>"
+                    + "  <input/file>|\"stdin\"" + "  <output/file>|\"stdout\"");
 
-            System.err.println();
-            System.err.println("READERS:");
+            feedback();
+            feedback("READERS:");
             for (Help help : readers) {
-                System.err.println("  " + help.toString());
+                feedback("  " + help.toString());
             }
 
-            System.err.println();
-            System.err.println("WRITERS:");
+            feedback();
+            feedback("WRITERS:");
             for (Help help : writers) {
-                System.err.println("  " + help.toString());
+                feedback("  " + help.toString());
             }
 
-            System.err.println();
-            System.err.println("FILTERS:");
+            feedback();
+            feedback("FILTERS:");
             for (Help help : filters) {
-                System.err.println("  " + help.toString());
+                feedback("  " + help.toString());
             }
 
-            System.err.println();
+            feedback();
             return;
         }
 
@@ -142,15 +141,23 @@ public class Main {
 
         Subtitle subtitle = reader.read(input).subtitle();
 
+        feedback("Read: " + subtitle.entries().size());
+        if (subtitle.entries().size() > 0) {
+            feedback("First: " + subtitle.entries().get(0));
+            feedback("Last:  "
+                    + subtitle.entries().get(subtitle.entries().size() - 1));
+        }
+
         if (filter != null) {
             filter.filter(subtitle);
         }
 
-        System.err.println(subtitle.entries().size());
+        feedback("Write: " + subtitle.entries().size());
+
         if (subtitle.entries().size() > 0) {
-            System.err.println(subtitle.entries().get(0));
-            System.err.println(subtitle.entries().get(
-                    subtitle.entries().size() - 1));
+            feedback("First: " + subtitle.entries().get(0));
+            feedback("Last:  "
+                    + subtitle.entries().get(subtitle.entries().size() - 1));
         }
 
         writer.subtitle(subtitle).write(output);
@@ -166,10 +173,19 @@ public class Main {
             name += "()";
         }
         name = name.replaceFirst("\\(", sufix + "(");
+        feedback("Creating: " + name);
         // name = "importPackage(Packages." + Main.class.getPackage().getName()
         // + "); new " + name;
         name = "new Packages." + Main.class.getPackage().getName() + "." + name;
-        System.out.println(name);
+        // feedback(name);
         return (E) engine.eval(name);
+    }
+
+    static void feedback() {
+        System.err.println();
+    }
+
+    static void feedback(Object msg) {
+        System.err.println(msg);
     }
 }
