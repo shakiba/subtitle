@@ -24,7 +24,8 @@ subtitle
       
       Max(t)           Exlude subtitles which are more than t milliseconds.
       Min(t)           Exlude subtitles which are less than t milliseconds.
-      Exclude(s, e)    Exlude subtitles which appears between ts and te milliseconds.
+      Exclude(tf)      Exlude subtitles which appears after tf milliseconds.
+      Exclude(tf, tt)  Exlude subtitles which appears between tf and tt milliseconds.
       
       Sort             Sort by start time.
       

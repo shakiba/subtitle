@@ -184,8 +184,10 @@ public class Main {
                 "Exlude subtitles which are more than t milliseconds."));
         filters.add(new Help(MinFilter.class, "(t)",
                 "Exlude subtitles which are less than t milliseconds."));
-        filters.add(new Help(ExcludeFilter.class, "(s, e)",
-                "Exlude subtitles which appears between ts and te milliseconds."));
+        filters.add(new Help(ExcludeFilter.class, "(tf)",
+                "Exlude subtitles which appears after tf milliseconds."));
+        filters.add(new Help(ExcludeFilter.class, "(tf, tt)",
+                "Exlude subtitles which appears between tf and tt milliseconds."));
         filters.add(new Help(""));
         filters.add(new Help(SortFilter.class, "Sort by start time."));
         filters.add(new Help(""));
