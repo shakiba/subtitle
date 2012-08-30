@@ -14,7 +14,7 @@ public class MaxFilter extends SubtitleFilter {
     protected void filter() {
         while (hasNextEntry()) {
             Entry next = nextEntry();
-            if (next.interval() > maxTime) {
+            if (next.lenght() > maxTime) {
                 removeLastEntry();
             }
         }

@@ -13,19 +13,21 @@ subtitle
     WRITERS:
       SubRip           SubRip (.srt) format writer.
       MicroDVD(r)      MicroDVD (.sub) format writer, r is frame rate.
+      Time(p, m, j)    Print each entry as `start length stop`. Values are printed as `milliseconds * m / 1000` with `p` precision.
+                       If specified, `j` is used to join subtitle lines and added to the end.
     
     FILTERS:
-      Head(n)          Include only first n subtitle. Use -n to exlude.
-      Tail(n)          Include only last n subtitle. Use -n to exlude.
+      Head(n)          Include only first n subtitle. Use -n to exclude.
+      Tail(n)          Include only last n subtitle. Use -n to exclude.
       
       Offset(t)        Move each subtitle t milliseconds.
       Pad(t)           Add t milliseconds before and after each subtitle.
       Pad(tb, ta)      Add tb milliseconds before and ta after each subtitle.
       
-      Max(t)           Exlude subtitles which are more than t milliseconds.
-      Min(t)           Exlude subtitles which are less than t milliseconds.
-      Exclude(tf)      Exlude subtitles which appears after tf milliseconds.
-      Exclude(tf, tt)  Exlude subtitles which appears between tf and tt milliseconds.
+      Max(t)           Exclude subtitles which are more than t milliseconds.
+      Min(t)           Exclude subtitles which are less than t milliseconds.
+      Exclude(tf)      Exclude subtitles which appears after tf milliseconds.
+      Exclude(tf, tt)  Exclude subtitles which appears between tf and tt milliseconds.
       
       Sort             Sort by start time.
       

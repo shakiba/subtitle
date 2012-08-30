@@ -26,7 +26,7 @@ public class SubRipReader extends SubtitleReader {
             state = State.numbered;
 
         } else if (state == State.numbered
-                && (matcher = intervalPattern.matcher(line)).matches()) {
+                && (matcher = lenghtPattern.matcher(line)).matches()) {
             long start = Entry.hmsl(matcher, 1, 2, 3, 4);
             long end = Entry.hmsl(matcher, 5, 6, 7, 8);
             current.startEnd(start, end);
@@ -47,7 +47,7 @@ public class SubRipReader extends SubtitleReader {
     }
 
     public static final String timePattern = "(\\d{1,2})\\:(\\d{1,2})\\:(\\d{1,2})\\,(\\d{1,3})";
-    public static final Pattern intervalPattern = Pattern.compile(timePattern
+    public static final Pattern lenghtPattern = Pattern.compile(timePattern
             + "\\s+-->\\s+" + timePattern);
 
     enum State {

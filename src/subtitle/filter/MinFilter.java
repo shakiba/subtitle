@@ -14,7 +14,7 @@ public class MinFilter extends SubtitleFilter {
     protected void filter() {
         while (hasNextEntry()) {
             Entry next = nextEntry();
-            if (next.interval() < minTime) {
+            if (next.lenght() < minTime) {
                 removeLastEntry();
             }
         }

@@ -26,6 +26,7 @@ import subtitle.reader.SubtitleReader;
 import subtitle.writer.MicroDVDWriter;
 import subtitle.writer.SubRipWriter;
 import subtitle.writer.SubtitleWriter;
+import subtitle.writer.TimeWriter;
 
 public class Main {
 
@@ -50,14 +51,13 @@ public class Main {
 
         @Override
         public String toString() {
-            if (clazz == null) {
-                return desc;
+            String prefix = "";
+            if (clazz != null) {
+                prefix = clazz.getSimpleName().replace("Filter", "")
+                        .replace("Writer", "").replace("Reader", "")
+                        + params;
             }
-            return String.format(
-                    "%-16s %s",
-                    clazz.getSimpleName().replace("Filter", "")
-                            .replace("Writer", "").replace("Reader", "")
-                            + params, desc);
+            return String.format("%-16s %s", prefix, desc);
         }
     }
 
@@ -157,12 +157,11 @@ public class Main {
     private static <E> E obj(String name, Package pkg, String sufix)
             throws ScriptException {
         name = name.trim();
-        if (!name.endsWith(")")) {
-            name += "()";
+        if (!name.matches("^\\w+\\(.*")) {
+            name = name.replaceFirst("(^\\w+)", "$1()");
         }
-        name = pkg.getName() + "." + name.replaceFirst("\\(", sufix + "(");
+        name = pkg.getName() + "." + name.replaceFirst("(\\W)", sufix + "$1");
         feedback("Creating: " + name);
-
         return (E) engine.eval("new Packages." + name);
     }
 
@@ -170,8 +169,10 @@ public class Main {
     private static List<Help> readers = new ArrayList<Help>();
     private static List<Help> writers = new ArrayList<Help>();
     static {
-        filters.add(new Help(HeadFilter.class, "(n)", "Include only first n subtitle. Use -n to exlude."));
-        filters.add(new Help(TailFilter.class, "(n)", "Include only last n subtitle. Use -n to exlude."));
+        filters.add(new Help(HeadFilter.class, "(n)",
+                "Include only first n subtitle. Use -n to exclude."));
+        filters.add(new Help(TailFilter.class, "(n)",
+                "Include only last n subtitle. Use -n to exclude."));
         filters.add(new Help(""));
         filters.add(new Help(OffsetFilter.class, "(t)",
                 "Move each subtitle t milliseconds."));
@@ -181,13 +182,13 @@ public class Main {
                 "Add tb milliseconds before and ta after each subtitle."));
         filters.add(new Help(""));
         filters.add(new Help(MaxFilter.class, "(t)",
-                "Exlude subtitles which are more than t milliseconds."));
+                "Exclude subtitles which are more than t milliseconds."));
         filters.add(new Help(MinFilter.class, "(t)",
-                "Exlude subtitles which are less than t milliseconds."));
+                "Exclude subtitles which are less than t milliseconds."));
         filters.add(new Help(ExcludeFilter.class, "(tf)",
-                "Exlude subtitles which appears after tf milliseconds."));
+                "Exclude subtitles which appears after tf milliseconds."));
         filters.add(new Help(ExcludeFilter.class, "(tf, tt)",
-                "Exlude subtitles which appears between tf and tt milliseconds."));
+                "Exclude subtitles which appears between tf and tt milliseconds."));
         filters.add(new Help(""));
         filters.add(new Help(SortFilter.class, "Sort by start time."));
         filters.add(new Help(""));
@@ -207,6 +208,13 @@ public class Main {
         writers.add(new Help(SubRipWriter.class, "SubRip (.srt) format writer."));
         writers.add(new Help(MicroDVDWriter.class, "(r)",
                 "MicroDVD (.sub) format writer, r is frame rate."));
+
+        writers.add(new Help(
+                TimeWriter.class,
+                "(p, m, j)",
+                "Print each entry as `start length stop`. Values are printed as `milliseconds * m / 1000` with `p` precision."));
+        writers.add(new Help(
+                "If specified, `j` is used to join subtitle lines and added to the end."));
     }
 
     static void feedback() {
