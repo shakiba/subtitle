@@ -14,7 +14,7 @@ subtitle
       SubRip           SubRip (.srt) format writer.
       MicroDVD(r)      MicroDVD (.sub) format writer, r is frame rate.
       Time(p, m, j)    Print each entry as `start length stop`. Values are printed as `milliseconds * m / 1000` with `p` precision.
-                       If specified, `j` is used to join subtitle lines and added to the end.
+      Time().text(j)   Use `j` to join subtitle lines and append them to times.
     
     FILTERS:
       Head(n)          Include only first n subtitle. Use -n to exclude.

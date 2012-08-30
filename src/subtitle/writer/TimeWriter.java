@@ -10,24 +10,24 @@ public class TimeWriter extends SubtitleWriter {
 
     private final String format;
     private final double multiply;
-    private final String lineJoiner;
+    private String lineJoiner;
 
     public TimeWriter() {
-        this(3, 1, null);
+        this(3, 1);
     }
 
     public TimeWriter(int precision) {
-        this(precision, 1, null);
+        this(precision, 1);
     }
 
     public TimeWriter(int precision, double multiply) {
-        this(precision, multiply, null);
-    }
-
-    public TimeWriter(int precision, double multiply, String lineJoiner) {
         this.format = "%.xf %.xf %.xf".replace("x", precision + "");
         this.multiply = multiply;
+    }
+
+    public TimeWriter text(String lineJoiner) {
         this.lineJoiner = lineJoiner;
+        return this;
     }
 
     @Override
