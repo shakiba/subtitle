@@ -30,7 +30,7 @@ public class Entry implements Comparable<Entry> {
         return this;
     }
 
-    public Entry startInterval(long start, long lenght) {
+    public Entry startLenght(long start, long lenght) {
         start(start);
         lenght(lenght);
         return this;

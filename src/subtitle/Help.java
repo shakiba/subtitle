@@ -15,6 +15,7 @@ import subtitle.filter.OffsetFilter;
 import subtitle.filter.PadFilter;
 import subtitle.filter.SortFilter;
 import subtitle.filter.TailFilter;
+import subtitle.filter.TrimNameFilter;
 import subtitle.reader.MicroDVDReader;
 import subtitle.reader.SubRipReader;
 import subtitle.writer.MicroDVDWriter;
@@ -86,6 +87,8 @@ public class Help {
                 "Exclude subtitles which contains a dialog like `ME: Hi|YOU: Bye!` or `- Hi|- Bye`."));
         filters.add(new Help(JoinContinueFilter.class,
                 "Join each two subtitles if one ends with and next starts with `...`."));
+        filters.add(new Help(TrimNameFilter.class,
+                "Remove `NAME: ` from beginning of each line."));
 
         readers.add(new Help(SubRipReader.class, "SubRip (.srt) format reader."));
         readers.add(new Help(MicroDVDReader.class, "(r)",
