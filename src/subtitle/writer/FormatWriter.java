@@ -47,7 +47,7 @@ public class FormatWriter extends SubtitleWriter {
         for (Entry entry : list) {
             Calendar start = cal(entry.start());
             Calendar end = cal(entry.end());
-            Calendar length = cal(entry.lenght());
+            Calendar length = cal(entry.length());
             String text = lineJoiner != null ? " "
                     + entry.joinLines(lineJoiner) : "";
             out.println(String.format(format, start, end, length, text));

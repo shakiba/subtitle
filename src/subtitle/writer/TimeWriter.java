@@ -37,7 +37,7 @@ public class TimeWriter extends SubtitleWriter {
             String text = lineJoiner != null ? " "
                     + entry.joinLines(lineJoiner) : "";
             out.println(String.format(format, t(entry.start()),
-                    t(entry.lenght()), t(entry.end()))
+                    t(entry.length()), t(entry.end()))
                     + text);
         }
     }

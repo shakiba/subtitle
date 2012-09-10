@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 
 public class Entry implements Comparable<Entry> {
     // private Integer number;
-    private long start, lenght;
+    private long start, length;
     private List<String> lines = new ArrayList<String>();
 
     // private String file;
@@ -26,13 +26,13 @@ public class Entry implements Comparable<Entry> {
 
     public Entry startEnd(long start, long end) {
         start(start);
-        lenght(end - start);
+        length(end - start);
         return this;
     }
 
     public Entry startLenght(long start, long lenght) {
         start(start);
-        lenght(lenght);
+        length(lenght);
         return this;
     }
 
@@ -51,16 +51,16 @@ public class Entry implements Comparable<Entry> {
     }
 
     public long end() {
-        return start + lenght;
+        return start + length;
     }
 
-    public Entry lenght(long lenght) {
-        this.lenght = Math.max(lenght, 0);
+    public Entry length(long length) {
+        this.length = Math.max(length, 0);
         return this;
     }
 
-    public long lenght() {
-        return lenght;
+    public long length() {
+        return length;
     }
 
     public Entry addLines(String... lines) {
@@ -125,7 +125,7 @@ public class Entry implements Comparable<Entry> {
 
     @Override
     public String toString() {
-        return String.format("%8d %6d %8d %s", start(), lenght(), end(),
+        return String.format("%8d %6d %8d %s", start(), length(), end(),
                 joinLines("|"));
     }
 

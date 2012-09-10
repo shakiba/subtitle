@@ -12,9 +12,10 @@ public class TrimNameFilter extends SubtitleFilter {
             Entry next = nextEntry();
             List<String> lines = next.lines();
             for (int i = 0; i < lines.size(); i++) {
-                lines.set(i, lines.get(i).replaceFirst("^([A-Z]|\\s)+\\:\\s+", ""));
+                lines.set(i, lines.get(i).replaceFirst(NAME, ""));
             }
         }
     }
 
+    public static final String NAME = "^([A-Z]|\\W)+\\:";
 }

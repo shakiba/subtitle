@@ -14,7 +14,8 @@ public class NoDialogFilter extends SubtitleFilter {
             boolean one = false;
             for (String line : next.lines()) {
                 line = Util.clean(line);
-                if (line.startsWith("- ") || line.matches("^[A-Z]+\\:.*")) {
+                if (line.startsWith("- ")
+                        || line.matches(TrimNameFilter.NAME + ".*")) {
                     if (one) {
                         removeLastEntry();
                         break;

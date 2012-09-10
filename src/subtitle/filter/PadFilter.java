@@ -21,7 +21,7 @@ public class PadFilter extends SubtitleFilter {
     protected void filter() {
         while (hasNextEntry()) {
             Entry current = nextEntry();
-            current.startLenght(current.start() - start, current.lenght()
+            current.startLenght(current.start() - start, current.length()
                     + start + end);
         }
     }
